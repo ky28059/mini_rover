@@ -13,13 +13,15 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='kevin',
-    maintainer_email='kevin@todo.todo',
-    description='TODO: Package description',
+    maintainer='Kevin Yu',
+    maintainer_email='yu1271@purdue.edu',
+    description='Boiler Robotics ROS mini rover challenge.',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'talker = mini_rover.publisher_member_function:main',
+            'listener = mini_rover.subscriber_member_function:main',
         ],
     },
 )
