@@ -25,7 +25,6 @@ def main(args=None):
     rclpy.init(args=args)
 
     name_publisher = NamePublisher()
-
     rclpy.spin(name_publisher)
 
     # Destroy the node explicitly
