@@ -20,8 +20,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'talker = mini_rover.publisher_member_function:main',
-            'listener = mini_rover.subscriber_member_function:main',
+            'minimal_publisher = mini_rover.minimal_publisher:main',
+            'minimal_subscriber = mini_rover.minimal_subscriber:main',
         ],
     },
 )
