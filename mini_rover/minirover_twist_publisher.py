@@ -2,13 +2,12 @@ import math
 
 import rclpy
 from rclpy.node import Node
+from rclpy.qos import qos_profile_system_default
 
 from geometry_msgs.msg import Twist
 
 import pygame
 from pygame.joystick import Joystick
-
-pygame.init()
 
 
 class TwistPublisher(Node):
@@ -16,7 +15,11 @@ class TwistPublisher(Node):
 
     def __init__(self):
         super().__init__('twist_publisher')
-        self.publisher_ = self.create_publisher(Twist, 'cmd_vel', 10)
+        self.publisher_ = self.create_publisher(
+            Twist,
+            'cmd_vel',
+            qos_profile_system_default
+        )
 
         timer_period = 0.02  # seconds
         self.timer = self.create_timer(timer_period, self.periodic)
@@ -72,6 +75,7 @@ def deadband(x: float, tolerance: float) -> float:
 
 
 def main(args=None):
+    pygame.init()
     rclpy.init(args=args)
 
     twist_publisher = TwistPublisher()
