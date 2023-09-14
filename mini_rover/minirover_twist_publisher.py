@@ -24,14 +24,16 @@ class TwistPublisher(Node):
         timer_period = 0.02  # seconds
         self.timer = self.create_timer(timer_period, self.periodic)
 
-        self.controller = Joystick(0)  # TODO: joystick #?
+        self.controller = Joystick(0)
 
     def periodic(self):
+        pygame.event.pump()
+
         # Publish tank drive data. Left velocity is controlled via `linear.x` and
         # right velocity via `angular.z`.
         left_pow, right_pow = tank_drive(
-            deadband(self.controller.get_axis(0), self.DEADBAND),  # TODO axis #
-            deadband(self.controller.get_axis(1), self.DEADBAND)  # TODO axis #
+            deadband(-self.controller.get_axis(1), self.DEADBAND),
+            deadband(-self.controller.get_axis(2), self.DEADBAND)
         )
 
         msg = Twist()
@@ -51,7 +53,7 @@ def tank_drive(translational: float, angular: float) -> tuple[float, float]:
     :param angular: The left / right power, in [-1.0, 1.0].
     :return: The parsed left and right wheel speeds, in [-1.0, 1.0].
     """
-    scale = min(1.0, abs(translational) + abs(angular))  # Scale net inputs > 1.0 down to 1.0
+    scale = max(1.0, abs(translational) + abs(angular))  # Scale net inputs > 1.0 down to 1.0
 
     return (translational - angular) / scale, \
            (translational + angular) / scale
@@ -71,7 +73,7 @@ def deadband(x: float, tolerance: float) -> float:
     # https://www.desmos.com/calculator/3b9pqz1ozn
     # y = (x - tolerance) / (1.0 - tolerance) { x > tolerance }
     # y = (x + tolerance) / (1.0 - tolerance) { x < -tolerance }
-    return (x - math.copysign(tolerance, x)) * (1.0 - tolerance)
+    return (x - math.copysign(tolerance, x)) / (1.0 - tolerance)
 
 
 def main(args=None):

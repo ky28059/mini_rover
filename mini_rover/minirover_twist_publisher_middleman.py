@@ -5,11 +5,10 @@ from rclpy.qos import qos_profile_system_default, qos_profile_sensor_data
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
 
-from mini_rover.minirover_twist_publisher import tank_drive, deadband
+from mini_rover.minirover_twist_publisher import tank_drive
 
 
 class TwistPublisherMiddleman(Node):
-    DEADBAND = 0.05
 
     def __init__(self):
         super().__init__('twist_publisher_middleman')
@@ -28,10 +27,7 @@ class TwistPublisherMiddleman(Node):
     def controller_callback(self, message: Joy):
         # Publish tank drive data. Left velocity is controlled via `linear.x` and
         # right velocity via `angular.z`.
-        left_pow, right_pow = tank_drive(
-            deadband(message.axes[0], self.DEADBAND),  # TODO axis #
-            deadband(message.axes[1], self.DEADBAND)  # TODO axis #
-        )
+        left_pow, right_pow = tank_drive(message.axes[1], message.axes[2])
 
         msg = Twist()
         msg.linear.x = left_pow

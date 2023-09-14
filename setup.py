@@ -22,8 +22,8 @@ setup(
         'console_scripts': [
             'minimal_publisher = mini_rover.minimal_publisher:main',
             'name_publisher = mini_rover.name_publisher:main',
-            'twist_publisher = mini_rover.twist_publisher:main',
-            'twist_publisher_middleman = mini_rover.twist_publisher_middleman:main',
+            'twist_publisher = mini_rover.minirover_twist_publisher:main',
+            'twist_publisher_middleman = mini_rover.minirover_twist_publisher_middleman:main',
 
             'minimal_subscriber = mini_rover.minimal_subscriber:main',
             'name_subscriber = mini_rover.name_subscriber:main',
