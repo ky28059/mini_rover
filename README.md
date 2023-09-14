@@ -28,6 +28,10 @@ kevin@ky28059:~$ ros2 topic list
 /parameter_events
 /rosout
 ```
+You can also launch both nodes directly with
+```bash
+ros2 launch mini_rover minirover_launch.py
+```
 
 ## Running on WSL2
 If running on the latest version of WSL, `colcon build` may fail with [setup,py install is deprecated](https://answers.ros.org/question/396439/setuptoolsdeprecationwarning-setuppy-install-is-deprecated-use-build-and-pip-and-other-standards-based-tools/).
@@ -54,7 +58,7 @@ BUSID  VID:PID    DEVICE                                                        
 3-2    20d6:a711  USB Input Device                                              Not attached
 3-4    0bda:8152  Realtek USB FE Family Controller                              Not attached
 ```
-Then, attach the desired USB device to the running WSL instance with
+and attach the desired USB device to the running WSL instance with
 ```shell
 usbipd wsl attach --busid <busid>
 ```
@@ -70,13 +74,13 @@ WSL's default kernel [does not support input devices](https://www.reddit.com/r/b
 (ie. `/dev/input` does not exist). To circumvent this, you can install a [custom kernel image and edit `.wslconfig` to point to it](https://github.com/microsoft/WSL/issues/7747#issuecomment-1328217406).
 
 More concretely, download the `kotc9` kernel from [this link](https://github.com/microsoft/WSL/files/10098030/kernel-xpad.zip)
-and extract the `bzImage`. If the image is located at `C:\kernel-xpad\bzImage`, update your `C:\Users\<username>\.wslconfig`
-to look something like
+and extract the `bzImage`, then edit the `kernel` option in `.wslconfig` to point to the location of the extracted `bzImage`;
+if the image is located at `C:\kernel-xpad\bzImage`, update `C:\Users\<username>\.wslconfig` to look something like
 ```
 [wsl2]
 kernel=C:\\kernel-xpad\\bzImage
 ```
-Then after a `wsl --shutdown`, your kernel should be updated and `/dev/input` should work.
+After a `wsl --shutdown`, the kernel should be updated and `/dev/input` should work.
 ```bash
 kevin@ky28059:~$ uname -a
 Linux ky28059 5.10.102.1-kotc9 #7 SMP Sun Nov 27 15:22:50 +05 2022 x86_64 x86_64 x86_64 GNU/Linux
