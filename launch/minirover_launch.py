@@ -2,12 +2,9 @@ from launch import LaunchDescription
 from launch_ros.actions import Node
 
 
+# Simultaneously launches the `joy` and twist publisher nodes to receive, process, and send
+# controller input to the rover.
 def generate_launch_description():
-    """
-    Launches both the `joy` and twist publisher nodes to send processed controller
-    input to `cmd_vel`.
-    :return: The `LaunchDescription`.
-    """
 
     joy_node = Node(
         package='joy',
