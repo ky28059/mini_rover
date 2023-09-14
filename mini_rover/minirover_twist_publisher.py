@@ -61,7 +61,9 @@ def tank_drive(translational: float, angular: float) -> tuple[float, float]:
 
 def deadband(x: float, tolerance: float) -> float:
     """
-    Squish an input to 0 within a given tolerance around 0.0, scaling the rest of the input accordingly.
+    Squish an input to 0 within a given tolerance around 0.0, scaling the rest
+    of the input accordingly.
+
     :param x: The input, in [-1.0, 1.0].
     :param tolerance: The radius around 0.0 to squash input in.
     :return: The input with deadband applied.
